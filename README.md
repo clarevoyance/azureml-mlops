@@ -7,7 +7,6 @@
 In this project we will work with the `bankmarketing_train.csv` dataset from the [UCI Machine Learning Repository](https://archive.ics.uci.edu/ml/datasets/Bank+Marketing) to configure a cloud-based machine learning production model, deploy it, and consume it. We will also create, publish, and consume a pipeline. At the end of this README, a screencast video is also added.
 
 ## Architectural Diagram
-*TODO*: Provide an architectual diagram of the project and give an introduction of each step. An architectural diagram is an image that helps visualize the flow of operations from start to finish. In this case, it has to be related to the completed project, with its various stages that are critical to the overall flow. For example, one stage for managing models could be "using Automated ML to determine the best model". 
 
 In this project, we will start by ingesting the Bank Marketing dataset into the Azure Machine Learning Studio workspace and then create an train a machine learning model by creating an automated machine learning experiment. Once the model training is completed, we will deploy the best model into an Azure Container Instance (ACI), enable Applications Insights, consume the deployed model using Swagger in a docker container, as well as consume the model endpoint and then benchmark it with Apache Bench.
 
@@ -30,7 +29,7 @@ In this step, we will create a `Service Principal` account and associate it with
 
 ### Step 2: Automated ML Experiment
 
-At this point, security is enabled and authentication is completed. in this step, we will create an experiment using Automated ML, configure a compute cluster, and use that cluster to run the experiment.
+At this point, security is enabled and authentication is completed. in this step, we will upload the bank marketing dataset, create an experiment using Automated ML, configure a compute cluster, and use that cluster to run the experiment.
 
 ![](images/ch2_1.png)
 
@@ -40,7 +39,7 @@ After uploading the bank marketing data set, we will proceed to begin an AutoML 
 
 ![](images/ch2_2.png)
 
-At the end of the autoML experiment, the best model `MaxAbsScaler, LightGBM` has been found and we will be deploying this model as an endpoint with Azure Container Instance (ACI)
+At the end of the autoML experiment, the best model `MaxAbsScaler, LightGBM` has been found and we will be deploying this model as an endpoint with Azure Container Instance (ACI). We will do this first by clicking on the best model and we will see the next screenshot in Step 3.
 
 ### Step 3: Deploy The Best Model
 
@@ -52,7 +51,7 @@ Deploying the model will allow for interaction with the HTTP API service and to 
 
 ### Step 4: Enable Logging
 
-Now that the best model is deployed, we will enable Application Insights through the `logs.py` script.
+We choose the best model for deployment and enable "Authentication" while deploying the model using Azure Container Instance (ACI). The executed code in logs.py enables Application Insights. "Application Insights enabled" is disabled before executing `logs.py`. We will also use `wget` to retrieve the `swagger.json` link found in the deployed endpoint details.
 
 ![](images/ch4_1.png)
 
@@ -60,7 +59,9 @@ Now that the best model is deployed, we will enable Application Insights through
 
 ### Step 5: Swagger Documentation 
 
-In this step, we will consume the deployed model using Swagger which will run on port 9000. The `swagger.json` that was generated from the ACI endpoint page has also been created in the same directory.
+In this step, we will consume the deployed model using Swagger which will run on port `9000`. The `swagger.json` that was generated from the ACI endpoint page has also been created in the same directory. After running the `swagger.sh` in the terminal, a docker container will be created and the default Swagger petstore json will be launched locally. We will change this to the `swagger.json` with `http://localhost:9000/swagger.json`.
+
+We can see that the input payload for executing the machine learning service. 
 
 ![](images/ch5_0.png)
 
@@ -68,7 +69,9 @@ In this step, we will consume the deployed model using Swagger which will run on
 
 ### Step 6: Consume Model Endpoint
 
-Once the model is deployed, we will use the `endpoint.py` script provided to interact with the trained model. We will also modify the `scoring_uri` and `key` to match the key for the service and the URI that was generated after deployment. For the purpose of security, the keys have been regenerated and removed from this repository.
+Once the model is deployed, we will use the `endpoint.py` script provided to interact with the trained model. We will also modify the `scoring_uri` and `key` to match the key for the service and the URI that was generated after deployment. This can be found in the 'Consume' tab of the endpoint. For the purpose of security, the keys have been regenerated and removed from this repository.
+
+In addition, we have also run a benchmark test using Apache Bench.
 
 ![](images/ch6_1.png)
 
@@ -80,11 +83,27 @@ For this next part of the project, we will use Jupyter Notebook to create a pipe
 
 ![](images/ch7_1.png)
 
+
+After creating a pipeline run using the Python SDK as well as creating the AutoMLStep, we will submit it. When the run is completed, it will show the status as `Completed` as seen in the screenshot above. When we are satisfied with the best fit model, we will move on the publish and run from the REST pipeline endpoint `Bankmarketing Train`.
+
+
 ![](images/ch7_2.png)
+
+
+
+To ensure this was properly published, we will open it and you can see the `Status` now shows as `ACTIVE`.
 
 ![](images/ch7_3.png)
 
+
+
+Using the REST endpoint url, we can build a HTTP POST request to the endpoint.
+
 ![](images/ch7_4.png)
+
+
+
+Finally, we will add a JSON payload object with the experiment name and the batch size parameter and we will schedule a run.
 
 ![](images/ch7_5.png)
 
