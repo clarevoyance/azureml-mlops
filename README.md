@@ -12,7 +12,7 @@ In this project, we will start by ingesting the Bank Marketing dataset into the 
 
 Next we will move on to to launch a Jupyter notebook in Azure ML Studio and build a pipeline using the Python SDK and finally we will create, publish and consume the pipeline and pipeline endpoints.
 
-![](images/architecture.png)
+![](images/ch.png)
 
 ## Key Steps
 
