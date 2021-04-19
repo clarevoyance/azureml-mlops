@@ -8,9 +8,9 @@ In this project we will work with the `bankmarketing_train.csv` dataset from the
 
 ## Architectural Diagram
 
-In this project, we will start by ingesting the Bank Marketing dataset into the Azure Machine Learning Studio workspace and then create an train a machine learning model by creating an automated machine learning experiment. Once the model training is completed, we will deploy the best model into an Azure Container Instance (ACI), enable Applications Insights, consume the deployed model using Swagger in a docker container, as well as consume the model endpoint and then benchmark it with Apache Bench.
+In this project, we will start by ingesting the Bank Marketing dataset into the Azure Machine Learning Studio workspace and then create and train a machine learning model with an automated machine learning experiment. Once the model training is completed, we will deploy the best model into an Azure Container Instance (ACI), enable Applications Insights, consume the deployed model using Swagger in a docker container, as well as consume the model endpoint and then benchmark it with Apache Bench.
 
-Next we will move to to launch a jupyter notebook in Azure ML Studio and build a pipeline using the Python SDK and finally we will create, publish and consume the pipeline.
+Next we will move on to to launch a Jupyter notebook in Azure ML Studio and build a pipeline using the Python SDK and finally we will create, publish and consume the pipeline and pipeline endpoints.
 
 ![](images/architecture.png)
 
